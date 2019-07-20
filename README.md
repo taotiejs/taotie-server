@@ -12,7 +12,7 @@ Log collecting and querying based on pinojs and clickhouse.
 ## Installation
 
 ```sh
-npm install @taotie/server -g
+npm install @taotiejs/server -g
 ```
 
 ## Usage
@@ -36,16 +36,16 @@ Options:
 
 ## Logger
 
-You may use [`@taotie/logger`](https://github.com/taotiejs/taotie-logger) for logging.
+You may use [`@taotiejs/logger`](https://github.com/taotiejs/taotie-logger) for logging.
 
-[badge-version]: https://img.shields.io/npm/v/@taotie%2Fserver.svg
-[badge-downloads]: https://img.shields.io/npm/dt/@taotie%2Fserver.svg
-[npm]: https://www.npmjs.com/package/@taotie%2Fserver
+[badge-version]: https://img.shields.io/npm/v/@taotiejs%2Fserver.svg
+[badge-downloads]: https://img.shields.io/npm/dt/@taotiejs%2Fserver.svg
+[npm]: https://www.npmjs.com/package/@taotiejs%2Fserver
 
-[badge-size]: https://img.shields.io/bundlephobia/minzip/@taotie%2Fserver.svg
-[bundlephobia]: https://bundlephobia.com/result?p=@taotie%2Fserver
+[badge-size]: https://img.shields.io/bundlephobia/minzip/@taotiejs%2Fserver.svg
+[bundlephobia]: https://bundlephobia.com/result?p=@taotiejs%2Fserver
 
-[badge-license]: https://img.shields.io/npm/l/@taotie%2Fserver.svg
+[badge-license]: https://img.shields.io/npm/l/@taotiejs%2Fserver.svg
 [license]: https://github.com/taotiejs/taotie-server/blob/master/LICENSE
 
 [badge-issues]: https://img.shields.io/github/issues/taotiejs/taotie-server.svg
