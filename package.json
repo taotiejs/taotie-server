@@ -1,0 +1,74 @@
+{
+  "name": "@taotie/server",
+  "version": "0.0.1",
+  "description": "Log collecting and querying based on pinojs and clickhouse",
+  "keywords": [
+    "log",
+    "logger",
+    "pino",
+    "pinojs",
+    "clickhouse",
+    "server",
+    "json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taotiejs/taotie-server.git"
+  },
+  "author": "Cweili",
+  "homepage": "https://github.com/taotiejs/taotie-server",
+  "bugs": {
+    "url": "https://github.com/taotiejs/taotie-server/issues"
+  },
+  "bin": {
+    "taotie": "cli.js"
+  },
+  "scripts": {
+    "lint": "eslint --fix *.js lib/**/*.js app/**/*.js app/**/*.svelte test/*.js",
+    "build:js": "rollup -c",
+    "build:html": "html-minifier public/index.html -o public/index.html --collapse-boolean-attributes --collapse-inline-tag-whitespace --collapse-whitespace --remove-attribute-quotes --remove-comments --remove-redundant-attributes --sort-attributes --sort-class-name",
+    "clean": "rimraf public/*",
+    "build": "run-s clean build:js build:html",
+    "autobuild": "rollup -c -w",
+    "dev": "run-p clean lint autobuild start",
+    "start": "node cli -D -i 1"
+  },
+  "dependencies": {
+    "@apla/clickhouse": "^1.6.0",
+    "@polka/send-type": "^0.5.2",
+    "commander": "^2.20.0",
+    "lodash.snakecase": "^4.1.1",
+    "polka": "^0.5.2",
+    "sirv": "^0.4.2",
+    "sql-bricks": "^2.0.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.4.5",
+    "@fortawesome/free-solid-svg-icons": "^5.9.0",
+    "@thunder/font-awesome-pro": "^5.9.1",
+    "babel-eslint": "^10.0.2",
+    "eslint": "^6.0.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-import-resolver-node": "^0.3.2",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-svelte3": "^2.0.0",
+    "html-minifier": "^4.0.0",
+    "npm-run-all": "^4.1.5",
+    "req-json": "^2.3.0",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.15.6",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-fill-html": "^1.1.0",
+    "rollup-plugin-livereload": "^1.0.0",
+    "rollup-plugin-node-resolve": "^5.0.0",
+    "rollup-plugin-svelte": "^5.0.3",
+    "rollup-plugin-uglify": "^6.0.2",
+    "stylus": "^0.54.5",
+    "svelte": "^3.4.4",
+    "svelte-fa": "^1.0.1",
+    "svelte-preprocess": "^2.14.4"
+  }
+}
