@@ -16,6 +16,7 @@
     "url": "https://github.com/taotiejs/taotie-server.git"
   },
   "author": "Cweili",
+  "license": "MIT",
   "homepage": "https://github.com/taotiejs/taotie-server",
   "bugs": {
     "url": "https://github.com/taotiejs/taotie-server/issues"
