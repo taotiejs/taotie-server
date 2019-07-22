@@ -48,7 +48,6 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.4.5",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
-    "@thunder/font-awesome-pro": "^5.9.1",
     "babel-eslint": "^10.0.2",
     "eslint": "^6.0.1",
     "eslint-config-airbnb-base": "^13.0.0",
@@ -71,5 +70,8 @@
     "svelte": "^3.4.4",
     "svelte-fa": "^1.0.1",
     "svelte-preprocess": "^2.14.4"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   }
 }
