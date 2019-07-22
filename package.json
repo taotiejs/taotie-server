@@ -67,7 +67,7 @@
     "rollup-plugin-svelte": "^5.0.3",
     "rollup-plugin-uglify": "^6.0.2",
     "stylus": "^0.54.5",
-    "svelte": "^3.4.4",
+    "svelte": "~3.4.4",
     "svelte-fa": "^1.0.1",
     "svelte-preprocess": "^2.14.4"
   },
