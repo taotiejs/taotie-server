@@ -91,7 +91,7 @@ function load(q) {
   }, query)).then((data) => {
     if (data && data.rows) {
       logs = logs.concat(data.data.map(log => assign({
-        collapse: true,
+        collapse: query.collapse !== '0',
       }, log)));
       offset += data.rows;
       if (autoLoadTimer) {
