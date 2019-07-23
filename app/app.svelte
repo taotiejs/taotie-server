@@ -84,6 +84,7 @@ function load(q) {
   }
   if (!query.timestampStart || parseInt(query.timestampStart, 10) < oneHourAgo) {
     clearInterval(autoLoadTimer);
+    autoLoadTimer = 0;
   }
   queryLogs(assign({
     offset,
@@ -93,6 +94,9 @@ function load(q) {
         collapse: true,
       }, log)));
       offset += data.rows;
+      if (autoLoadTimer) {
+        body.scrollTop = documentElement.scrollTop = contentHeight;
+      }
     }
   });
 }
