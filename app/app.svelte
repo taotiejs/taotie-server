@@ -76,8 +76,14 @@ function isNearBottom(percent) {
   return (valid - scrollTop) * percent < windowHeight; // scroll over percent of page
 }
 
+function stopAutoLoad() {
+  clearInterval(autoLoad);
+  autoLoad = 0;
+}
+
 function load(q) {
-  const oneHourAgo = Date.now() - 3600000;
+  const now = Date.now();
+  const oneHourAgo = now - 3600000;
   if (q) {
     if (q.level) {
       q.level = levels[q.level];
@@ -85,6 +91,10 @@ function load(q) {
     query = q;
     offset = 0;
     logs = [];
+  }
+  if ((query.timestampStart && parseInt(query.timestampStart, 10) < oneHourAgo)
+   || (query.timestampEnd && parseInt(query.timestampEnd, 10) < now)) {
+    stopAutoLoad();
   }
   queryLogs(assign({
     offset,
@@ -113,17 +123,16 @@ function onHashChange(path) {
   load(hash > 0 ? querystring(p.substr(hash + 1)) : {});
 }
 
-const onScroll = debounce(300, (ev) => {
-  const isBottom = isNearBottom(.999);
+const onScroll = debounce(300, () => {
+  const isBottom = isNearBottom(0.999);
   if (isUserScroll) {
-    isNearBottom(0.7) && load();
     if (!autoLoad && isBottom) {
       autoLoad = setInterval(load, 5000);
     }
+    isNearBottom(0.7) && load();
   }
   if (autoLoad && !isBottom) {
-    clearInterval(autoLoad);
-    autoLoad = 0;
+    stopAutoLoad();
   }
 });
 
