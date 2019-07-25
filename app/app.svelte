@@ -62,11 +62,19 @@ const formatJSON = (json) => {
 let logs = [];
 let query = {};
 let offset = 0;
-let autoLoadTimer;
+let autoLoad;
 
 let windowHeight;
 let contentHeight;
 let scrollTop;
+let isUserScroll = true;
+
+function isNearBottom(percent) {
+  const total = body.scrollHeight || documentElement.scrollHeight;
+  const valid = total - windowHeight;
+  scrollTop = window.pageYOffset || documentElement.scrollTop || body.scrollTop;
+  return (valid - scrollTop) * percent < windowHeight; // scroll over percent of page
+}
 
 function load(q) {
   const oneHourAgo = Date.now() - 3600000;
@@ -74,17 +82,9 @@ function load(q) {
     if (q.level) {
       q.level = levels[q.level];
     }
-    if (q.timestampStart && parseInt(q.timestampStart, 10) >= oneHourAgo) {
-      clearInterval(autoLoadTimer);
-      autoLoadTimer = setInterval(load, 10000);
-    }
     query = q;
     offset = 0;
     logs = [];
-  }
-  if (!query.timestampStart || parseInt(query.timestampStart, 10) < oneHourAgo) {
-    clearInterval(autoLoadTimer);
-    autoLoadTimer = 0;
   }
   queryLogs(assign({
     offset,
@@ -94,8 +94,14 @@ function load(q) {
         collapse: query.collapse !== '0',
       }, log)));
       offset += data.rows;
-      if (autoLoadTimer) {
-        body.scrollTop = documentElement.scrollTop = contentHeight;
+      if (autoLoad) {
+        setTimeout(() => {
+          isUserScroll = false;
+          body.scrollTop = documentElement.scrollTop = body.scrollHeight || documentElement.scrollHeight;
+          setTimeout(() => {
+            isUserScroll = true;
+          }, 600);
+        }, 30);
       }
     }
   });
@@ -107,12 +113,17 @@ function onHashChange(path) {
   load(hash > 0 ? querystring(p.substr(hash + 1)) : {});
 }
 
-const onScroll = debounce(300, () => {
-  const total = body.scrollHeight || documentElement.scrollHeight;
-  const valid = total - windowHeight;
-  scrollTop = window.pageYOffset || documentElement.scrollTop || body.scrollTop;
-  if (valid - scrollTop < windowHeight * 1.3) { // load if scroll over 70% of page
-    load();
+const onScroll = debounce(300, (ev) => {
+  const isBottom = isNearBottom(.999);
+  if (isUserScroll) {
+    isNearBottom(0.7) && load();
+    if (!autoLoad && isBottom) {
+      autoLoad = setInterval(load, 5000);
+    }
+  }
+  if (autoLoad && !isBottom) {
+    clearInterval(autoLoad);
+    autoLoad = 0;
   }
 });
 
@@ -143,6 +154,10 @@ onHashChange(window.location.href);
 </div>
 
 <div style="height: {windowHeight > contentHeight ? windowHeight - contentHeight + 50 : 0}px"></div>
+
+{#if autoLoad}
+  <div class="loading"><div class="dot"></div></div>
+{/if}
 
 <style lang="stylus">
 @media(min-width: 768px)
@@ -202,4 +217,35 @@ onHashChange(window.location.href);
     cursor: pointer
     .log-arrow
       opacity: 1
+
+.loading
+  position: relative
+  margin: 1em 3em
+  .dot
+  &:before
+  &:after
+    width: 6px
+    height: @width
+    background: #fff
+    border-radius: 50%
+    animation: loading 1s .5s linear infinite
+  &:before
+  &:after
+    content: ""
+    position: absolute
+    top: 0
+  &:before
+    left: -1em
+    animation-delay: .25s
+  &:after
+    left: 1em
+    animation-delay: .75s
+
+@keyframes loading
+  0%
+    opacity: 1
+  50%
+    opacity: 0
+  100%
+    opacity: 1
 </style>
