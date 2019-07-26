@@ -82,8 +82,6 @@ function stopAutoLoad() {
 }
 
 function load(q) {
-  const now = Date.now();
-  const oneHourAgo = now - 3600000;
   if (q) {
     if (q.level) {
       q.level = levels[q.level];
@@ -92,8 +90,17 @@ function load(q) {
     offset = 0;
     logs = [];
   }
-  if ((query.timestampStart && parseInt(query.timestampStart, 10) < oneHourAgo)
-   || (query.timestampEnd && parseInt(query.timestampEnd, 10) < now)) {
+  const now = Date.now();
+  const oneHourAgo = now - 3600000;
+  let {
+    timestampStart,
+    timestampEnd
+  } = query;
+  timestampStart = parseInt(timestampStart, 10);
+  timestampEnd = parseInt(timestampEnd, 10);
+
+  if ((timestampStart && timestampStart < oneHourAgo)
+   || (timestampEnd && timestampEnd < now)) {
     stopAutoLoad();
   }
   queryLogs(assign({
