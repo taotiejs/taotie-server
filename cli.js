@@ -9,8 +9,7 @@ cmd
   .usage('[options]')
   .option('-d, --db-host <hostname>', 'database host', '127.0.0.1')
   .option('-P, --db-port <port>', 'database port', toInt, 80)
-  .option('-u, --db-user <username>', 'database user')
-  .option('-p, --db-password <password>', 'database password')
+  .option('-a, --db-auth <username:password>', 'database user and password')
   .option('-n, --db-name <database>', 'database name', 'taotie')
   .option('-H, --http <port>', 'HTTP server port', toInt, 80)
   .option('-U, --udp <port>', 'UDP log receiver port', toInt, 514)
@@ -28,8 +27,7 @@ taotie({
   db: {
     host: cmd.dbHost,
     port: cmd.dbPort,
-    user: cmd.dbUser,
-    password: cmd.dbPassword,
+    auth: cmd.dbAuth,
     queryOptions: {
       database: cmd.dbName,
     },

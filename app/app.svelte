@@ -94,7 +94,7 @@ function load(q) {
   const oneHourAgo = now - 3600000;
   let {
     timestampStart,
-    timestampEnd
+    timestampEnd,
   } = query;
   timestampStart = parseInt(timestampStart, 10);
   timestampEnd = parseInt(timestampEnd, 10);
