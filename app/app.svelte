@@ -217,6 +217,7 @@ onHashChange(window.location.href);
     color: #999
   &-pre
     white-space: pre-wrap
+    word-break: break-all
   &-10
     color: #777
   &-20
