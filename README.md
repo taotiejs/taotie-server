@@ -21,17 +21,16 @@ npm install @taotiejs/server -g
 taotie [options]
 
 Options:
-  -V, --version                 output the version number
-  -d, --db-host <hostname>      Database host (default: "127.0.0.1")
-  -P, --db-port <port>          Database port (default: 80)
-  -u, --db-user <username>      Database user
-  -p, --db-password <password>  Database password
-  -n, --db-name <database>      Database name (default: "taotie")
-  -H, --http <port>             HTTP server port (default: 80)
-  -U, --udp <port>              UDP log receiver port (default: 514)
-  -i --interval <secode>        save logs interval
-  -D, --dev                     development mode
-  -h, --help                    output usage information
+  -V, --version                      output the version number
+  -d, --db-host <hostname>           database host (default: "127.0.0.1")
+  -P, --db-port <port>               database port (default: 80)
+  -a, --db-auth <username:password>  database username and password
+  -n, --db-name <database>           database name (default: "taotie")
+  -H, --http <port>                  HTTP server port (default: 80)
+  -U, --udp <port>                   UDP log receiver port (default: 514)
+  -i --interval <secode>             save logs interval
+  -D, --dev                          development mode
+  -h, --help                         output usage information
 ```
 
 ## Logger

@@ -9,7 +9,7 @@ cmd
   .usage('[options]')
   .option('-d, --db-host <hostname>', 'database host', '127.0.0.1')
   .option('-P, --db-port <port>', 'database port', toInt, 80)
-  .option('-a, --db-auth <username:password>', 'database user and password')
+  .option('-a, --db-auth <username:password>', 'database username and password')
   .option('-n, --db-name <database>', 'database name', 'taotie')
   .option('-H, --http <port>', 'HTTP server port', toInt, 80)
   .option('-U, --udp <port>', 'UDP log receiver port', toInt, 514)
