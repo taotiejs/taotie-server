@@ -7,13 +7,14 @@ const toInt = str => parseInt(str, 10);
 cmd
   .version(pkg.version)
   .usage('[options]')
-  .option('-d, --db-host <hostname>', 'database host', '127.0.0.1')
-  .option('-P, --db-port <port>', 'database port', toInt, 80)
-  .option('-a, --db-auth <username:password>', 'database username and password')
-  .option('-n, --db-name <database>', 'database name', 'taotie')
+  .option('-d, --db-host <hostname>', 'clickhouse host', '127.0.0.1')
+  .option('-P, --db-port <port>', 'clickhouse port', toInt, 80)
+  .option('-a, --db-auth <username:password>', 'clickhouse username and password')
+  .option('-n, --db-name <database>', 'clickhouse database name', 'taotie')
   .option('-H, --http <port>', 'HTTP server port', toInt, 80)
   .option('-U, --udp <port>', 'UDP log receiver port', toInt, 514)
-  .option('-i --interval <secode>', 'save logs interval')
+  .option('-i --interval <second>', 'save logs interval', toInt, 5)
+  .option('-I --data-skipping-indices', 'enable clickhouse data skipping indices')
   .option('-D, --dev', 'development mode')
   .parse(process.argv);
 
@@ -22,6 +23,8 @@ if (cmd.dev) {
 }
 
 const taotie = require('./index');
+
+console.log(cmd);
 
 taotie({
   db: {
@@ -35,4 +38,5 @@ taotie({
   http: cmd.http,
   udp: cmd.udp,
   interval: cmd.interval,
+  dataSkippingIndices: cmd.dataSkippingIndices,
 });

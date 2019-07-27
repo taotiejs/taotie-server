@@ -22,13 +22,14 @@ taotie [options]
 
 Options:
   -V, --version                      output the version number
-  -d, --db-host <hostname>           database host (default: "127.0.0.1")
-  -P, --db-port <port>               database port (default: 80)
-  -a, --db-auth <username:password>  database username and password
-  -n, --db-name <database>           database name (default: "taotie")
+  -d, --db-host <hostname>           clickhouse host (default: "127.0.0.1")
+  -P, --db-port <port>               clickhouse port (default: 80)
+  -a, --db-auth <username:password>  clickhouse username and password
+  -n, --db-name <database>           clickhouse database name (default: "taotie")
   -H, --http <port>                  HTTP server port (default: 80)
   -U, --udp <port>                   UDP log receiver port (default: 514)
-  -i --interval <secode>             save logs interval
+  -i --interval <second>             save logs interval (default: 5)
+  -I --data-skipping-indices         enable clickhouse data skipping indices
   -D, --dev                          development mode
   -h, --help                         output usage information
 ```

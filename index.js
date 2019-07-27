@@ -7,8 +7,9 @@ module.exports = ({
   http = 80,
   udp = 514,
   interval = 5,
+  dataSkippingIndices,
 } = {}) => {
   ch.connect(db);
-  receiver(udp, ch, interval);
+  receiver(udp, ch, interval, dataSkippingIndices);
   httpServer(http, ch);
 };
