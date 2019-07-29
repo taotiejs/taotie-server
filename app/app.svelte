@@ -180,7 +180,7 @@ onHashChange(window.location.href);
   :global(::-webkit-scrollbar)
     width: 8px
     height: @width
-    background-color: rgba(#000, .1)
+    background-color: rgba(#000, .6)
 
   :global(::-webkit-scrollbar-thumb)
     background-color: rgba(#fff, .4)

@@ -24,8 +24,6 @@ if (cmd.dev) {
 
 const taotie = require('./index');
 
-console.log(cmd);
-
 taotie({
   db: {
     host: cmd.dbHost,
