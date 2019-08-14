@@ -1,6 +1,6 @@
 {
   "name": "@taotiejs/server",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Log collecting and querying based on pinojs and clickhouse",
   "keywords": [
     "log",
