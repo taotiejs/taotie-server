@@ -37,6 +37,7 @@ const levelsMapping = {};
 keys(levels).map((name) => {
   levelsMapping[levels[name]] = name.toUpperCase();
 });
+const htmlspecialchars = str => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const formatLevel = (code) => {
   const level = levelsMapping[`${code}`];
   return `${level}${'     '.substr(level.length)}`;
@@ -45,15 +46,22 @@ const formatDate = tinydate('{YYYY}-{MM}-{DD} {HH}:{mm}:{ss}.{fff}');
 const formatTimestamp = timestamp => formatDate(new Date(parseInt(timestamp, 10)));
 const formatJSON = (json) => {
   if (json) {
+    // fixed nested json
+    const fixed = json
+      .replace(/\n/g, '\\n')
+      .replace(/"([Ww]\/)?"(\S+?)""/g, '"$1\\"$2\\""')
+      .replace(/"({\S+?})"/g, ($0, json) => json);
     try {
-      // fixed nested json
-      const fixed = json
-        .replace(/"([Ww]\/)?"(\S+?)""/g, '"$1\\"$2\\""')
-        .replace(/"({\S+?})"/g, ($0, json) => json);
-      return Prism.highlight(JSON.stringify(JSON.parse(fixed), undefined, 2), Prism.languages.javascript, 'javascript');
+      let output = '';
+      const obj = JSON.parse(fixed);
+      if (obj.err && obj.err.stack) {
+        output += htmlspecialchars(`${obj.err.stack.replace(/\\n/g, '\n')}\n`);
+      }
+      output += Prism.highlight(JSON.stringify(obj, undefined, 2), Prism.languages.javascript, 'javascript');
+      return output;
     } catch (err) {
-      console.error(json, err);
-      return json;
+      console.warn(json, err);
+      return htmlspecialchars(json);
     }
   }
   return '';
@@ -150,8 +158,8 @@ onHashChange(window.location.href);
 
 <div bind:clientHeight={contentHeight}>
   {#each logs as log}
-    <div class="log {log[5] ? 'log-collapse' : ''}" on:click={() => log.collapse = !log.collapse}>
-      <div class="log-line">
+    <div class="log {log[5] ? 'log-collapse' : ''}">
+      <div class="log-line" on:click={() => log.collapse = !log.collapse}>
         <div class="log-arrow"><Fa icon={faAngleDown} rotate={log.collapse ? -90 : 0}></Fa></div>
         <div class="log-icon log-{log[1]}"><Fa icon={levelIcons[`${log[1]}`]}></Fa></div>
         <div class="log-message">
@@ -159,7 +167,7 @@ onHashChange(window.location.href);
           <span class="log-pre log-{log[1]}">{formatLevel(log[1])}</span>
           <span class="log-hostname">[{log[2]}]</span>
           <span class="log-module">[{log[3]}]</span>
-          <span class="log-pre">{log[4]}</span>
+          <span class="log-pre log-msg" on:click|stopPropagation>{log[4]}</span>
         </div>
       </div>
       {#if !log.collapse && log[5]}
@@ -231,9 +239,13 @@ onHashChange(window.location.href);
   &-60
     color: #e83334
   &-collapse
-    cursor: pointer
-    .log-arrow
-      opacity: 1
+    .log
+      &-line
+        cursor: pointer
+      &-msg
+        cursor: auto
+      &-arrow
+        opacity: 1
 
 .loading
   position: relative
