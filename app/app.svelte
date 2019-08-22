@@ -49,7 +49,7 @@ const formatJSON = (json) => {
     // fixed nested json
     const fixed = json
       .replace(/\n/g, '\\n')
-      .replace(/"([Ww]\/)?"(\S+?)""/g, '"$1\\"$2\\""')
+      .replace(/"([Ww]\/)?"([^"]+?)""/g, '"$1\\"$2\\""')
       .replace(/"({\S+?})"/g, ($0, json) => json);
     try {
       let output = '';
