@@ -1,6 +1,6 @@
 {
   "name": "@taotiejs/server",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "Log collecting and querying based on pinojs and clickhouse",
   "keywords": [
     "log",
@@ -32,7 +32,7 @@
     "build": "run-s clean build:js build:html",
     "autobuild": "rollup -c -w",
     "dev": "run-p clean lint autobuild start",
-    "start": "node cli -D -H 9033 -U 9032 -d ch.dragon.abacus-dev.ikonline.cn -a dragon:lIhxilpQJObVhuaE -n abacus_log -i 1"
+    "start": "node cli -D -i 1"
   },
   "dependencies": {
     "@apla/clickhouse": "^1.6.0",
