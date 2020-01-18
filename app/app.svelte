@@ -105,6 +105,7 @@ function load(q) {
     query = q;
     offset = 0;
     logs = [];
+    loaded = false;
   }
   const now = Date.now();
   const oneHourAgo = now - 3600000;
