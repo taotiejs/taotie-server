@@ -74,6 +74,7 @@ const formatJSON = (json) => {
   return '';
 };
 
+let loaded = false;
 let logs = [];
 let query = {};
 let offset = 0;
@@ -121,6 +122,7 @@ function load(q) {
   queryLogs(assign({
     offset,
   }, query)).then((data) => {
+    loaded = true;
     if (data && data.rows) {
       logs = logs.concat(data.data.map(log => assign({
         collapse: query.collapse !== '0',
@@ -164,29 +166,37 @@ onHashChange(window.location.href);
 <svelte:window bind:innerHeight={windowHeight} on:scroll={onScroll} on:hashchange={onHashChange}></svelte:window>
 
 <div bind:clientHeight={contentHeight}>
-  {#each logs as log}
-    <div class="log {log[5] ? 'log-collapse' : ''}">
-      <div class="log-line" on:click={() => log.collapse = !log.collapse}>
-        <div class="log-arrow"><Fa icon={faAngleDown} rotate={log.collapse ? -90 : 0}></Fa></div>
-        <div class="log-icon log-{log[1]}"><Fa icon={levelIcons[`${log[1]}`]}></Fa></div>
-        <div class="log-message">
-          <span class="log-time">[{formatTimestamp(log[0])}]</span>
-          <span class="log-pre log-{log[1]}">{formatLevel(log[1])}</span>
-          <span class="log-hostname">[{log[2]}]</span>
-          <span class="log-module">[{log[3]}]</span>
-          <span class="log-pre log-msg" on:click|stopPropagation>{log[4]}</span>
+  {#if loaded}
+    {#if logs.length}
+      {#each logs as log}
+        <div class="log {log[5] ? 'log-collapse' : ''}">
+          <div class="log-line" on:click={() => log.collapse = !log.collapse}>
+            <div class="log-arrow"><Fa icon={faAngleDown} rotate={log.collapse ? -90 : 0}></Fa></div>
+            <div class="log-icon log-{log[1]}"><Fa icon={levelIcons[`${log[1]}`]}></Fa></div>
+            <div class="log-message">
+              <span class="log-time">[{formatTimestamp(log[0])}]</span>
+              <span class="log-pre log-{log[1]}">{formatLevel(log[1])}</span>
+              <span class="log-hostname">[{log[2]}]</span>
+              <span class="log-module">[{log[3]}]</span>
+              <span class="log-pre log-msg" on:click|stopPropagation>{log[4]}</span>
+            </div>
+          </div>
+          {#if !log.collapse && log[5]}
+            <div><pre class="language-js"><code>{@html formatJSON(log[5])}</code></pre></div>
+          {/if}
         </div>
-      </div>
-      {#if !log.collapse && log[5]}
-        <div><pre class="language-js"><code>{@html formatJSON(log[5])}</code></pre></div>
-      {/if}
-    </div>
-  {/each}
+      {/each}
+    {:else}
+      No data.
+    {/if}
+  {:else}
+    <div class="loading"><div class="dot"></div></div>
+  {/if}
 </div>
 
 <div style="height: {windowHeight > contentHeight ? windowHeight - contentHeight + 50 : 0}px"></div>
 
-{#if autoLoad}
+{#if loaded && autoLoad}
   <div class="loading"><div class="dot"></div></div>
 {/if}
 

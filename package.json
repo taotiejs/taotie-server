@@ -32,7 +32,7 @@
     "build": "run-s clean build:js build:html",
     "autobuild": "rollup -c -w",
     "dev": "run-p clean lint autobuild start",
-    "start": "node cli -D -i 1"
+    "start": "node cli -D -H 9033 -U 9032 -d ch.dragon.abacus-dev.ikonline.cn -a dragon:lIhxilpQJObVhuaE -n abacus_log -i 1"
   },
   "dependencies": {
     "@apla/clickhouse": "^1.6.0",
@@ -67,8 +67,8 @@
     "rollup-plugin-svelte": "^5.0.3",
     "rollup-plugin-uglify": "^6.0.2",
     "stylus": "^0.54.5",
-    "svelte": "~3.4.4",
-    "svelte-fa": "^1.0.1",
+    "svelte": "^3.17.1",
+    "svelte-fa": "^2.1.0",
     "svelte-preprocess": "^2.14.4"
   },
   "engines": {
