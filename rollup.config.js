@@ -25,6 +25,7 @@ export default {
     svelte({
       // enable run-time checks when not in production
       dev: !production,
+      emitCss: false,
       legacy: true,
       preprocess: [stylus({
         'include css': true,
