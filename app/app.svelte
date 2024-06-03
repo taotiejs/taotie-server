@@ -50,6 +50,9 @@ const formatJSON = (json) => {
     const fixed = json
       .replace(/\n/g, '\\n')
       .replace(/"([Ww]\/)?"([^"]+?)""/g, '"$1\\"$2\\""')
+      .replace(/""(.*?)(?<![:\\])""/g, ($0, $1) => {
+        return `"\\"${$1.replace(/"/g, '\\"')}\\""`;
+      })
       .replace(/"({\S+?})"/g, ($0, json) => {
         try {
           JSON.parse(json);
